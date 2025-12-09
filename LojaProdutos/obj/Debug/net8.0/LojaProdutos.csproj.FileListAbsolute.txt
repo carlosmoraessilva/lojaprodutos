@@ -137,3 +137,4 @@ C:\Users\Carlos\Source\Repos\LojaProdutos\LojaProdutos\obj\Debug\net8.0\refint\L
 C:\Users\Carlos\Source\Repos\LojaProdutos\LojaProdutos\obj\Debug\net8.0\LojaProdutos.pdb
 C:\Users\Carlos\Source\Repos\LojaProdutos\LojaProdutos\obj\Debug\net8.0\LojaProdutos.genruntimeconfig.cache
 C:\Users\Carlos\Source\Repos\LojaProdutos\LojaProdutos\obj\Debug\net8.0\ref\LojaProdutos.dll
+C:\Users\Carlos\Source\Repos\LojaProdutos\LojaProdutos\obj\Debug\net8.0\LojaProdutos.sourcelink.json
