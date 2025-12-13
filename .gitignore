@@ -26,6 +26,4 @@ Resharper
 
 _ReSharper/ .DotSettings.user
 
-Entity Framework
-
-Migrations/
+Entity Framework/
