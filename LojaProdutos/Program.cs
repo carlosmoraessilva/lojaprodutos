@@ -1,5 +1,4 @@
 using LojaProdutos.Data;
-using LojaProdutos.Services;
 using LojaProdutos.Services.Produto;
 using Microsoft.EntityFrameworkCore;
 
