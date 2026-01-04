@@ -1,4 +1,5 @@
-﻿using LojaProdutos.Models;
+﻿using LojaProdutos.Dto.Produto;
+using LojaProdutos.Models;
 
 namespace LojaProdutos.Services.Produto
 {
@@ -6,6 +7,12 @@ namespace LojaProdutos.Services.Produto
     {
 
         Task<List<ProdutoModel>> BuscarProdutos();
-        
+
+        Task<ProdutoModel> Cadastrar(CriarProdutoDto criarProdutoDto, IFormFile foto);
+
+        Task<ProdutoModel> BuscarProdutoPorId(int id);
+
+        Task<ProdutoModel> Editar(EditarProdutoDto editarProdutoDto, IFormFile? foto);
+
     }
 }

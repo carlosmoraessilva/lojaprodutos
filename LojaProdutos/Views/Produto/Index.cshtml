@@ -29,7 +29,7 @@
                     <tr>
                         @if(produto.Foto != null)
                         {
-                            <td><img src="..." /></td>
+                            <td><img src="~/imagem/@produto.Foto" style="width:50px; height:50px" /></td>
                         }
                         else
                         {
@@ -43,7 +43,7 @@
                         <td>@produto.Valor.ToString("F")</td>
 
                         <td>
-                            <a class="btn btn-info"><i class="bi bi-pencil mx-1"></i>Editar</a>
+                            <a asp-action="Editar" asp-controller="Produto" asp-route-id="@produto.Id" asp class="btn btn-info"><i class="bi bi-pencil mx-1"></i>Editar</a>
                             <a class="btn btn-danger"><i class="bi bi-x-circle mx-1"></i>Remover</a>
                         </td>
 
