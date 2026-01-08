@@ -1,7 +1,7 @@
 wwwroot\css\site.css
 wwwroot\css\YETI.css
 wwwroot\favicon.ico
-wwwroot\imagem\versa.jfif8b924248-92ae-45fb-ac57-4c229ec8c99f.png
+wwwroot\imagem\versa.jpg72505e86-c1bd-49c6-818c-2f0e7e22a1a3.png
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
