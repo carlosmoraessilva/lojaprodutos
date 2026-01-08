@@ -63,10 +63,13 @@ namespace LojaProdutos.Controllers
             if (ModelState.IsValid)
             {
                 var produto = await _produtoInterface.Cadastrar(criarProdutoDto, foto);
+
+                TempData["MensagemSucesso"] = "Produto cadastrado com sucesso!";
                 return RedirectToAction("Index", "Produto");
             }
             else
             {
+                TempData["MensagemErro"] = "Erro ao cadastrar o produto. Verifique os dados e tente novamente.";
                 ViewBag.Categorias = await _categoriaInterface.BuscarCategorias();
                 return View(criarProdutoDto);
             }
@@ -79,11 +82,13 @@ namespace LojaProdutos.Controllers
             if (ModelState.IsValid)
             {
                 var produto = await _produtoInterface.Editar(editarProdutoDto, foto);
+                TempData["MensagemSucesso"] = "Produto editado com sucesso!";
                 return RedirectToAction("Index", "Produto");
             }
             else
             {
                 ViewBag.Categorias = await _categoriaInterface.BuscarCategorias();
+                TempData["MensagemErro"] = "Erro ao editar o produto. Verifique os dados e tente novamente.";
                 return View(editarProdutoDto);
             }
 
