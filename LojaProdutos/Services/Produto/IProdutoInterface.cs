@@ -8,6 +8,8 @@ namespace LojaProdutos.Services.Produto
 
         Task<List<ProdutoModel>> BuscarProdutos();
 
+        Task<List<ProdutoModel>> BuscarProdutoFiltro(string? pesquisa);
+
         Task<ProdutoModel> Cadastrar(CriarProdutoDto criarProdutoDto, IFormFile foto);
 
         Task<ProdutoModel> BuscarProdutoPorId(int id);
