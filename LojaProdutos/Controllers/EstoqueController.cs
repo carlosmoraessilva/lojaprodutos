@@ -33,7 +33,7 @@ namespace LojaProdutos.Controllers
                 using (MemoryStream ms = new MemoryStream())
                 {
                     workbook.SaveAs(ms);
-                   // ms.Seek(0, SeekOrigin.Begin);
+                  
                     return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Vendas.xlsx");
                 }
             }
