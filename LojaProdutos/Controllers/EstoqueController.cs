@@ -1,5 +1,7 @@
-﻿using LojaProdutos.Services.Estoque;
+﻿using ClosedXML.Excel;
+using LojaProdutos.Services.Estoque;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace LojaProdutos.Controllers
 {
@@ -17,6 +19,51 @@ namespace LojaProdutos.Controllers
             {
                 var registros = _estoqueInterface.ListagemRegistros();
                 return View(registros);
+            }
+
+        public IActionResult GerarRelatorio()
+        {
+            //Buscar os dados
+            var dados = BuscarDados();
+
+            //Retornar o Arquivo
+            using (XLWorkbook workbook = new XLWorkbook())
+            {
+                workbook.AddWorksheet(dados);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    workbook.SaveAs(ms);
+                   // ms.Seek(0, SeekOrigin.Begin);
+                    return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Vendas.xlsx");
+                }
+            }
+        }
+
+        private DataTable BuscarDados()
+        {
+            DataTable dataTable = new DataTable();
+
+            dataTable.TableName = "Dados Vendas - Produtos";
+
+            dataTable.Columns.Add("ProdutoId", typeof(int));
+            dataTable.Columns.Add("Categoria", typeof(string));
+            dataTable.Columns.Add("Data da Compra", typeof(DateTime));
+            dataTable.Columns.Add("Valor Total", typeof(double));
+
+
+            var dados = _estoqueInterface.ListagemRegistros();
+
+            if (dados.Count > 0)
+            {
+                foreach (var item in dados)
+                {
+                    dataTable.Rows.Add(item.ProdutoId, item.CategoriaNome, item.DataCompra, item.Total);
+                }
+            }
+
+            return dataTable;
+
+
         }
 
         [HttpPost]
