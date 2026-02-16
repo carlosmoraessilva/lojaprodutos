@@ -14,7 +14,7 @@ namespace LojaProdutos.Controllers
         public async Task<IActionResult> Index()
         {
             var usuarios = await _usuarioInterface.BuscarUsuarios();
-            return View();
+            return View(usuarios);
         }
     }
 }
