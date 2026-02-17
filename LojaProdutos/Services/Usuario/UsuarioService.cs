@@ -1,4 +1,5 @@
-﻿using LojaProdutos.Data;
+﻿using AutoMapper;
+using LojaProdutos.Data;
 using LojaProdutos.Dto.Usuario;
 using LojaProdutos.Models;
 using LojaProdutos.Services.Autenticacao;
@@ -12,13 +13,15 @@ namespace LojaProdutos.Services.Usuario
     {
         private readonly DataContext _context;
         private readonly IAutenticacaoInterface _autenticacaoInterface;
+        private readonly IMapper _mapper;
 
-        public UsuarioService(DataContext context, IAutenticacaoInterface autenticacaoInterface)
+        public UsuarioService(DataContext context, IAutenticacaoInterface autenticacaoInterface, IMapper mapper)
         {
             _context = context;
             _autenticacaoInterface = autenticacaoInterface;
+            _mapper = mapper;
         }
-        public async Task<UsuarioModel> BuscarUsuarioById(int id)
+        public async Task<UsuarioModel> BuscarUsuarioPorId(int id)
         {
             try
             {
@@ -92,11 +95,38 @@ namespace LojaProdutos.Services.Usuario
             }
         }
 
+        public async Task<UsuarioModel> Editar(EditarUsuarioDto editarUsuarioDto)
+        {
+            try
+            {
+                var usuarioBanco = await _context.Usuarios.Include(e => e.Endereco).FirstOrDefaultAsync(u => u.Id == editarUsuarioDto.Id);
+
+                usuarioBanco.Nome = editarUsuarioDto.Nome;
+                usuarioBanco.Cargo = editarUsuarioDto.Cargo;
+                usuarioBanco.Email = editarUsuarioDto.Email;
+                usuarioBanco.DataAlteracao = DateTime.Now;
+                usuarioBanco.Endereco = _mapper.Map<EnderecoModel>(editarUsuarioDto.Endereco);
+
+                _context.Update(usuarioBanco);
+
+                await _context.SaveChangesAsync();
+
+                return usuarioBanco;
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<bool> VerificaSeExisteEmail(CriarUsuarioDto criarUsuarioDto)
         {
             try
             {
-                var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.Email == criarUsuarioDto.Email);
+                var usuario = await _context.Usuarios.Include(e => e.Endereco).FirstOrDefaultAsync(x => x.Email == criarUsuarioDto.Email);
 
                 if (usuario == null)
                 {

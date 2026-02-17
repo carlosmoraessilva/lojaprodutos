@@ -6,9 +6,11 @@ namespace LojaProdutos.Services.Usuario
     public interface IUsuarioInterface
     {
         Task<List<UsuarioModel>> BuscarUsuarios();
-        Task<UsuarioModel> BuscarUsuarioById(int id);
+        Task<UsuarioModel> BuscarUsuarioPorId(int id);
         Task<bool> VerificaSeExisteEmail(CriarUsuarioDto criarUsuarioDto);
         Task<CriarUsuarioDto> Cadastar(CriarUsuarioDto criarUsuarioDto);
+        Task<UsuarioModel> Editar(EditarUsuarioDto editarUsuarioDto);
+        
 
     }
 }

@@ -1,4 +1,6 @@
-﻿using LojaProdutos.Dto.Usuario;
+﻿using AutoMapper;
+using LojaProdutos.Dto.Endereco;
+using LojaProdutos.Dto.Usuario;
 using LojaProdutos.Services.Usuario;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,10 +9,12 @@ namespace LojaProdutos.Controllers
     public class UsuarioController : Controller
     {
         private readonly IUsuarioInterface _usuarioInterface;
+        private readonly IMapper _mapper;
 
-        public UsuarioController(IUsuarioInterface usuarioInterface)
+        public UsuarioController(IUsuarioInterface usuarioInterface, IMapper mapper)
         {
             _usuarioInterface = usuarioInterface;
+            _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {
@@ -21,6 +25,23 @@ namespace LojaProdutos.Controllers
         public IActionResult Cadastrar()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Editar(int id)
+        {
+            var usuario = await _usuarioInterface.BuscarUsuarioPorId(id);
+           
+            var usuarioEditado = new EditarUsuarioDto
+            {
+                Nome = usuario.Nome,
+                Cargo = usuario.Cargo,
+                Email = usuario.Email,
+                Id = usuario.Id,
+                Endereco = _mapper.Map<EditarEnderecoDto>(usuario.Endereco)
+
+            };
+
+            return View(usuarioEditado);
         }
 
         [HttpPost]
@@ -50,5 +71,24 @@ namespace LojaProdutos.Controllers
 
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Editar(EditarUsuarioDto editarUsuarioDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var usuario = await _usuarioInterface.Editar(editarUsuarioDto);
+
+                TempData["MensagemSucesso"] = "Usuário editado com sucesso!";
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["MensagemErro"] = "Verifique os dados informados!";
+                return View(editarUsuarioDto);
+            }
+        }
+            
     }
 }
