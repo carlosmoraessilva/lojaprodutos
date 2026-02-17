@@ -96,3 +96,31 @@
     </form>
 
 </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+<script>
+    var input_Logradouro = document.querySelector("#input-logradouro");
+    var input_Bairro = document.querySelector("#input-bairro");
+    var input_Estado = document.querySelector("#input-estado");
+    var input_Complemento = document.querySelector("#input-complemento");
+
+    $('#input-cep').focusout(async function(e){
+        var target = e.target;
+        var value = target.value;
+
+
+        var url = `https://viacep.com.br/ws/${value}/json/`;
+
+        var resposta = await fetch(url);
+
+        var dados = await resposta.json();
+
+        console.log(dados)
+        input_Logradouro.value = dados.logradouro;
+        input_Bairro.value = dados.bairro;
+        input_Estado.value = dados.uf;
+        input_Complemento.value = dados.complemento;
+    
+    });
+</script>
