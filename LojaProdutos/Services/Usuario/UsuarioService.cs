@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using LojaProdutos.Data;
+using LojaProdutos.Dto.Login;
 using LojaProdutos.Dto.Usuario;
 using LojaProdutos.Models;
 using LojaProdutos.Services.Autenticacao;
+using LojaProdutos.Services.Sessao;
 using Microsoft.EntityFrameworkCore;
 
 namespace LojaProdutos.Services.Usuario
@@ -14,12 +16,14 @@ namespace LojaProdutos.Services.Usuario
         private readonly DataContext _context;
         private readonly IAutenticacaoInterface _autenticacaoInterface;
         private readonly IMapper _mapper;
+        private readonly ISessaoInterface _sessaoInterface;
 
-        public UsuarioService(DataContext context, IAutenticacaoInterface autenticacaoInterface, IMapper mapper)
+        public UsuarioService(DataContext context, IAutenticacaoInterface autenticacaoInterface, IMapper mapper, ISessaoInterface sessaoInterface)
         {
             _context = context;
             _autenticacaoInterface = autenticacaoInterface;
             _mapper = mapper;
+            _sessaoInterface = sessaoInterface;
         }
         public async Task<UsuarioModel> BuscarUsuarioPorId(int id)
         {
@@ -118,6 +122,38 @@ namespace LojaProdutos.Services.Usuario
             catch (Exception ex)
             {
 
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<UsuarioModel> Login(LoginUsuarioDto loginUsuarioDto)
+        {
+            try
+            {
+                var usuarioBanco = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == loginUsuarioDto.Email);
+
+                if (usuarioBanco == null)
+                {
+                    return null;
+                }
+
+                if(!_autenticacaoInterface.VerificaLogin(loginUsuarioDto.Senha, usuarioBanco.SenhaHash, usuarioBanco.SenhaSalt))
+                {
+                    return null;
+                }
+
+                //Criar Sessão de usuário
+
+                _sessaoInterface.CriarSessao(usuarioBanco);
+
+                return usuarioBanco;
+
+
+
+
+            }
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
             }
         }

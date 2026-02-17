@@ -1,5 +1,6 @@
 ﻿using LojaProdutos.Enums;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.Text.Json.Serialization;
 
 namespace LojaProdutos.Models
 {
@@ -18,6 +19,7 @@ namespace LojaProdutos.Models
 
 
         [ValidateNever]
+       
         public EnderecoModel Endereco { get; set; }
     }
 }
