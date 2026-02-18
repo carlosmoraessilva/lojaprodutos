@@ -1,4 +1,5 @@
 ﻿using LojaProdutos.Dto.Login;
+using LojaProdutos.Services.Sessao;
 using LojaProdutos.Services.Usuario;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,10 +8,12 @@ namespace LojaProdutos.Controllers
     public class LoginController : Controller
     {
         private readonly IUsuarioInterface _usuarioInterface;
+        private readonly ISessaoInterface _sessaoInterface;
 
-        public LoginController(IUsuarioInterface usuarioInterface) 
+        public LoginController(IUsuarioInterface usuarioInterface, ISessaoInterface sessaoInterface) 
         {
             _usuarioInterface = usuarioInterface;
+            _sessaoInterface = sessaoInterface;
         }
         public IActionResult Login()
         {
@@ -31,7 +34,8 @@ namespace LojaProdutos.Controllers
                  return View(loginUsuarioDto);
                 }
 
-                TempData["MensagemSucesso"] = "Usuário com sucesso!";
+                _sessaoInterface.CriarSessao(usuario);
+                TempData["MensagemSucesso"] = "Usuário logado com sucesso!";
                 return RedirectToAction("Index", "Home");
             }
             else
