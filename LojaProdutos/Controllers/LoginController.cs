@@ -1,4 +1,4 @@
-﻿using LojaProdutos.Dto.Login;
+using LojaProdutos.Dto.Login;
 using LojaProdutos.Services.Sessao;
 using LojaProdutos.Services.Usuario;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +18,12 @@ namespace LojaProdutos.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+
+        public IActionResult Sair()
+        {
+            _sessaoInterface.RemoverSessao();
+            return RedirectToAction("Login");
         }
 
         [HttpPost]

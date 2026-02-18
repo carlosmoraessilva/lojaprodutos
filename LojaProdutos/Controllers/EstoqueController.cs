@@ -8,7 +8,7 @@ namespace LojaProdutos.Controllers
 {
 
     [UsuarioLogado]
-    [UsuarioLogadoAdm]
+ 
        
     public class EstoqueController : Controller
     {
@@ -18,6 +18,8 @@ namespace LojaProdutos.Controllers
             {
                 _estoqueInterface = estoqueInterface;
             }
+
+             [UsuarioLogadoAdm]
             public IActionResult Index()
             {
                 var registros = _estoqueInterface.ListagemRegistros();

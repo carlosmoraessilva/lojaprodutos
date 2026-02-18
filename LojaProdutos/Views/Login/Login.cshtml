@@ -1,6 +1,10 @@
 ﻿@using LojaProdutos.Dto.Login
 @model LoginUsuarioDto
 
+@{
+    Layout = "_LayoutDeslogada";
+}
+
 
 <div class="container">
     <form asp-controller="Login" asp-action="Login" method="post">
